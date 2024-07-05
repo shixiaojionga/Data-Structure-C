@@ -9,26 +9,26 @@ typedef struct TreeNode{
     struct TreeNode* right;
 }TreeNode;
 
-typedef struct Tree2{
+typedef struct BTree{
     TreeNode* nodes;
     TreeNode* root;
     size_t Nodesize;
-}Tree2;
+}BTree;
 
-void TreeInit(Tree2* t, int size){
+void TreeInit(BTree* t, int size){
     t->Nodesize = size;
     t->nodes = (TreeNode*)malloc(sizeof(TreeNode)*size);
     t->root = NULL;
 }
 
-void TreeDestory(Tree2* t){
+void TreeDestory(BTree* t){
     free(t->nodes);
     t->nodes = NULL;
     t->Nodesize = 0;
     t->root = NULL;
 }
 
-TreeNode* TreeGetNode(Tree2* t, int id){
+TreeNode* TreeGetNode(BTree* t, int id){
     return &t->nodes[id];
 }
 
@@ -36,7 +36,7 @@ void visit(TreeNode* node){
     printf("%c", node->val);
 }
 
-TreeNode* CreateRecursively(Tree2* t, Eletype a[], int size, int nodeID, Eletype nullNode){
+TreeNode* CreateRecursively(BTree* t, Eletype a[], int size, int nodeID, Eletype nullNode){
     if(nodeID >= size || a[nodeID] == nullNode){
         return NULL;
     }
@@ -47,11 +47,11 @@ TreeNode* CreateRecursively(Tree2* t, Eletype a[], int size, int nodeID, Eletype
     return nowNode;
 }
 
-void TreeCreate(Tree2* t, Eletype a[], int size, char nullNode){
+void TreeCreate(BTree* t, Eletype a[], int size, char nullNode){
     t->root = CreateRecursively(t, a, size, 1, nullNode);
 }
 
-void preOrder(Tree2* t, TreeNode* node){
+void preOrder(BTree* t, TreeNode* node){
     if(node){
         visit(node);
         preOrder(t, node->left);
@@ -59,11 +59,11 @@ void preOrder(Tree2* t, TreeNode* node){
     }
 }
 
-void TreePreOrderTraversal(Tree2* t){
+void TreePreOrderTraversal(BTree* t){
     preOrder(t, t->root);
 }
 
-void inOrder(Tree2* t, TreeNode* node){
+void inOrder(BTree* t, TreeNode* node){
     if(node){
         inOrder(t, node->left);
         visit(node);
@@ -71,11 +71,11 @@ void inOrder(Tree2* t, TreeNode* node){
     }
 }
 
-void TreeInOrderTraversal(Tree2* t){
+void TreeInOrderTraversal(BTree* t){
     inOrder(t, t->root);
 }
 
-void postOrder(Tree2* t, TreeNode* node){
+void postOrder(BTree* t, TreeNode* node){
     if(node){
         postOrder(t, node->left);
         postOrder(t, node->right);
@@ -83,14 +83,14 @@ void postOrder(Tree2* t, TreeNode* node){
     }
 }
 
-void TreePostOrderTraversal(Tree2* t){
+void TreePostOrderTraversal(BTree* t){
     postOrder(t, t->root);
 }
 
 int main(){
     const char nullNode = '-';
     char a[15] = {nullNode, 'a', 'b', 'c', 'd', nullNode, 'e', 'f', 'g', 'h', nullNode, nullNode, nullNode, nullNode, 'i'};
-    Tree2 T;
+    BTree T;
     TreeInit(&T, 15);
     TreeCreate(&T, a, 15, nullNode);
     TreePreOrderTraversal(&T);printf("\n");
